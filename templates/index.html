@@ -97,9 +97,18 @@
         <div class="card">
             <div class="card-header text-center">
                 <h2 class="card-title">Location Data Form</h2>
-                <p class="card-subtitle">Enter the location coordinates to submit data</p>
+                <p class="card-subtitle">Enter your client ID and location coordinates to submit data</p>
             </div>
             <form id="locationForm">
+                <div class="form-group">
+                    <label for="clientId" class="form-label">
+                        <i class="fas fa-id-card me-2"></i>Client ID
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="clientId" name="clientId" required>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="latitude" class="form-label">
                         <i class="fas fa-map-marker-alt me-2"></i>Latitude
@@ -132,6 +141,7 @@
             e.preventDefault();
             
             const formData = {
+                clientId: document.getElementById('clientId').value,
                 latitude: parseFloat(document.getElementById('latitude').value),
                 longitude: parseFloat(document.getElementById('longitude').value),
                 systemInfo: {
@@ -157,7 +167,6 @@
                 ],
                 appState: "production",
                 areas: ["DZp3jVjCXw", "FEU6yjmnLn", "K91md3nO3s", "KrvGerKbqF"],
-                clientId: "OHGRRBqmoC",
                 os: "ios",
                 noImpulse: true,
                 basketIds: []
