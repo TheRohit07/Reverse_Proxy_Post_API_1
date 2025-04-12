@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin-top: 50px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            background: white;
+            padding: 2rem;
+        }
+        
+        .card-header {
+            background: none;
+            border: none;
+            padding: 0 0 1.5rem 0;
+        }
+        
+        .card-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+        
+        .btn-success {
+            background-color: #2ecc71;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+            transform: translateY(-1px);
+        }
+        
+        .table {
+            margin-top: 1.5rem;
+        }
+        
+        .table thead th {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+            padding: 1rem;
+        }
+        
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+        
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .business-types, .areas {
+            max-width: 300px;
+            white-space: normal;
+        }
+        
+        .system-info {
+            max-width: 400px;
+            white-space: normal;
+        }
+        
+        .system-info div {
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+        
+        .system-info div:last-child {
+            margin-bottom: 0;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+        
+        .no-data i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="card-title">Location Data</h2>
+                    <p class="text-muted">View and export location data</p>
+                </div>
+                <div class="action-buttons">
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Form
+                    </a>
+                    <a href="/export-csv" class="btn btn-success">
+                        <i class="fas fa-file-export me-2"></i>Export to CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                {% if data %}
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Business Types</th>
+                            <th>App State</th>
+                            <th>System Info</th>
+                            <th>Longitude</th>
+                            <th>Areas</th>
+                            <th>Client ID</th>
+                            <th>Latitude</th>
+                            <th>OS</th>
+                            <th>No Impulse</th>
+                            <th>Basket IDs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in data %}
+                        <tr>
+                            <td class="business-types">{{ item.currentBusinessTypes|join(', ') }}</td>
+                            <td>{{ item.appState }}</td>
+                            <td class="system-info">
+                                <div><strong>IDFA:</strong> {{ item.systemInfo.idfa }}</div>
+                                <div><strong>Region Code:</strong> {{ item.systemInfo.regionCode }}</div>
+                                <div><strong>Timestamp:</strong> {{ item.systemInfo.timestamp }}</div>
+                                <div><strong>Country Code:</strong> {{ item.systemInfo.countryCode }}</div>
+                                <div><strong>Device ID:</strong> {{ item.systemInfo.deviceId }}</div>
+                                <div><strong>Country ID:</strong> {{ item.systemInfo.countryId }}</div>
+                                <div><strong>Platform:</strong> {{ item.systemInfo.platform }}</div>
+                                <div><strong>Session ID:</strong> {{ item.systemInfo.instashopSessionId }}</div>
+                                <div><strong>Language:</strong> {{ item.systemInfo.lang }}</div>
+                                <div><strong>LVC:</strong> {{ item.systemInfo.LVC }}</div>
+                                <div><strong>App Version:</strong> {{ item.systemInfo.appVersion }}</div>
+                                <div><strong>Environment:</strong> {{ item.systemInfo.environment }}</div>
+                                <div><strong>App Build:</strong> {{ item.systemInfo.appBuild }}</div>
+                                <div><strong>Timezone:</strong> {{ item.systemInfo.timezone }}</div>
+                            </td>
+                            <td>{{ item.longitude }}</td>
+                            <td class="areas">{{ item.areas|join(', ') }}</td>
+                            <td>{{ item.clientId }}</td>
+                            <td>{{ item.latitude }}</td>
+                            <td>{{ item.os }}</td>
+                            <td>{{ item.noImpulse }}</td>
+                            <td>{{ item.basketIds|join(', ') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="no-data">
+                    <i class="fas fa-database"></i>
+                    <h4>No Data Available</h4>
+                    <p>Submit location data to view it here</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
